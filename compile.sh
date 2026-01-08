@@ -2,7 +2,7 @@
 # Compile script for simple Java project
 
 echo "Compiling Java files..."
-javac src/main/java/com/bootdev/httpserver/*.java -d out
+javac -d out src/main/java/com/bootdev/**/*.java
 
 if [ $? -eq 0 ]; then
     echo "Compilation successful!"

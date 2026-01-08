@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
-class HttpServer {
+public class HttpServer {
     public void run() {
         try(ServerSocket serverSocket = new ServerSocket(42069))
         {

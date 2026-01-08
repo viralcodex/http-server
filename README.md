@@ -32,7 +32,7 @@ javac --enable-preview --release 21 src/main/java/com/bootdev/httpserver/*.java 
 
 Or manually:
 ```bash
-java --enable-preview -cp out com.bootdev.httpserver.HTTPServerMain
+java --enable-preview -cp out com.bootdev.tcplistener.TCPListenerMain
 ```
 
 ### Test
