@@ -20,19 +20,10 @@ This project implements an HTTP server from scratch to learn:
 ```bash
 ./compile.sh
 ```
-Or manually:
-```bash
-javac --enable-preview --release 21 src/main/java/com/bootdev/httpserver/*.java -d out
-```
 
 ### Run
 ```bash
 ./run.sh
-```
-
-Or manually:
-```bash
-java --enable-preview -cp out com.bootdev.tcplistener.TCPListenerMain
 ```
 
 ### Test
