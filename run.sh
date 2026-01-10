@@ -1,10 +1,10 @@
 #!/bin/bash
 # Run script for simple Java project
 
-echo "Select 1 to run HTTPServerMain and 2 for UPDSenderMain"
+echo "Select 1 to run TCPListenerMain and 2 for UPDSenderMain"
 read -r option
 if [ "$option" == "1" ]; then
-  echo "Running HTTPServerMain..."
+  echo "Running TCPListenerMain..."
   java -cp out com.bootdev.tcplistener.TCPListenerMain
 elif [ "$option" == "2" ]; then
   echo "Running UDPSenderMain..."

@@ -11,8 +11,8 @@ public class RequestFromReader {
         try {
             while (request.getParserState() != ParserState.DONE) //keep running until we get and parse the request
             {
-                int n = reader.read(charBuff);
-                if (n == -1) {
+                int n = reader.read(charBuff); //reading in the buffer
+                if (n == -1) { //EOF
                     break;
                 }
 

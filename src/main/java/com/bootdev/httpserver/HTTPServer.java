@@ -1,8 +1,13 @@
 package com.bootdev.httpserver;
 
+import com.bootdev.internal.request.Request;
+import com.bootdev.internal.request.RequestFromReader;
+
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.BlockingQueue;
 
 public class HttpServer {
@@ -23,19 +28,15 @@ public class HttpServer {
     }
     public void handleConnection(Socket socket) {
         try{
-            InputStream inputStream = socket.getInputStream();
-            BlockingQueue<String> queue = LinesReader.getLines(inputStream);
+            InputStreamReader inputStreamReader = new InputStreamReader(
+                    socket.getInputStream(), StandardCharsets.UTF_8
+            );
+            Request request = RequestFromReader.requestFromReader(inputStreamReader);
 
-            //print the lines from the queue
-            while(true)
-            {
-                String currentLine = queue.take();
-                if(LinesReader.isEOF(currentLine))
-                {
-                    break; //EOF
-                }
-                System.out.printf("read: %s\n", currentLine);
-            }
+            System.out.println("Request Line: ");
+            System.out.println("Method: "+ request.getRequestLine().getMethod());
+            System.out.println("Target: " + request.getRequestLine().getRequestTarget());
+            System.out.println("Version: " + request.getRequestLine().getHttpVersion());
             //close after processing
             socket.close();
             System.out.println("Connection closed");

@@ -2,7 +2,8 @@
 # Compile script for simple Java project
 
 echo "Compiling Java files..."
-javac -d out src/main/java/com/bootdev/**/*.java
+
+find src/main/java -name "*.java" -exec javac -d out {} +
 
 if [ $? -eq 0 ]; then
     echo "Compilation successful!"
