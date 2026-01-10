@@ -38,8 +38,8 @@ public class HttpServer {
             System.out.println("Target: " + request.getRequestLine().getRequestTarget());
             System.out.println("Version: " + request.getRequestLine().getHttpVersion());
             //close after processing
-            socket.close();
-            System.out.println("Connection closed");
+//            socket.close();
+//            System.out.println("Connection closed");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
