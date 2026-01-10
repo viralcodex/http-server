@@ -2,33 +2,29 @@ package com.bootdev.internal.request;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class RequestParser {
 
-    public static Request requestFromReader(Reader reader) {
-        try{
-            String s = readAll(reader);
-            String[] lines = s.split("\r\n"); //break all lines in the request
-
-            if(lines.length == 0)
+    //this function will wait until we get a proper request line i.e. ending with \r\n,
+    // until then we defer and return 0 that we need more data to parse
+    public static int parseRequestLine(Request request, byte[] buffer, int bufferLength) {
+        for (int i = 0; i < bufferLength - 1; i++) {
+            if (buffer[i] == '\r' && buffer[i + 1] == '\n') //found full request line, parse it and return the result
             {
-                throw new IllegalArgumentException("Empty request");
+                RequestLine requestLine = parseRequestLineStrict(new String(buffer, 0, i, StandardCharsets.US_ASCII));
+                request.markDone(requestLine);
+                return i + 2; //<data> + \r\n
             }
-
-            RequestLine requestLine = parseRequestLine(lines[0]); //send the first line that has the request details
-
-            return new Request(requestLine);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
         }
+        return 0; //more data needed to correctly parse the request
     }
 
-    private static RequestLine parseRequestLine(String line) {
+    private static RequestLine parseRequestLineStrict(String line) {
 
         String[] details = line.split(" ");
 
-        if(details.length != 3)
-        {
+        if (details.length != 3) {
             throw new IllegalArgumentException("Incorrect request line");
         }
 
@@ -36,33 +32,18 @@ public class RequestParser {
         String requestTarget = details[1];
         String httpVersion = details[2];
 
-        if(!method.matches("^[A-Z]+$"))
-        {
+        if (!method.matches("^[A-Z]+$")) {
             throw new IllegalArgumentException("Invalid request method");
         }
 
-        if(!httpVersion.contains("HTTP/"))
-        {
+        if (!httpVersion.contains("HTTP/")) {
             throw new IllegalArgumentException("Invalid HTTP version");
         }
 
         String version = httpVersion.substring("HTTP/".length());
-        if(!version.equals("1.1"))
-        {
+        if (!version.equals("1.1")) {
             throw new IllegalArgumentException("Unsupported HTTP version (only 1.1 is supported)");
         }
         return new RequestLine(version, requestTarget, method);
-    }
-
-    private static String readAll(Reader reader) throws IOException
-    {
-       StringBuilder sb = new StringBuilder();
-       char[] buffer = new char[1024];
-       int n;
-       while((n = reader.read(buffer)) != -1)
-       {
-           sb.append(buffer, 0, n);
-       }
-       return sb.toString();
     }
 }
