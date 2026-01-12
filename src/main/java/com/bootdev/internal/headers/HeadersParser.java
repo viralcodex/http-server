@@ -3,28 +3,36 @@ package com.bootdev.internal.headers;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class Headers extends HashMap<String, String> {
+public class HeadersParser extends HashMap<String, String> {
     private static final String allowedCharacters = "!#$%&'*+-.^_`|~";
-    public static Headers newHeaders() {
-        return new Headers();
+
+    public static HeadersParser newHeaders() {
+        return new HeadersParser();
     }
 
-    public HeadersResult parse(byte[] buffer, int bufferLength) {
-        for (int i = 0; i < bufferLength - 1; i++) {
+    public HeadersResult parseHeaders(byte[] buffer, int offset, int length) {
+        if (buffer == null || buffer.length == 0) {
+            return new HeadersResult(0, false, null);
+        }
+        if (offset < 0 || length < 0 || offset + length > buffer.length) {
+            throw new IllegalArgumentException("Invalid buffer offset or length");
+        }
+
+        for (int i = offset; i < offset + length - 1; i++) {
             if (buffer[i] == '\r' && buffer[i + 1] == '\n') {
-                if (i == 0) //empty header
+                if (i == offset) //empty header
                 {
                     return new HeadersResult(2, true, null); //return early
                 }
 
-                String headerLine = new String(buffer, 0, i, StandardCharsets.US_ASCII);
+                String headerLine = new String(buffer, offset, i - offset, StandardCharsets.US_ASCII);
                 parseHeaderLine(headerLine);
 
                 //coz adding \r\n in the parsing as well
-                return new HeadersResult(i + 2, false, null);
+                return new HeadersResult((i - offset) + 2, false, null);
             }
         }
-        //no CRLF -> need more data to parse
+        //no CRLF -> need more data to parseHeaders
         return new HeadersResult(0, false, null);
     }
 
@@ -39,8 +47,7 @@ public class Headers extends HashMap<String, String> {
         }
 
         String key = headerLine.substring(0, colonIndex).trim().toLowerCase();
-        if(!isValidHeaderName(key))
-        {
+        if (!isValidHeaderName(key)) {
             throw new IllegalArgumentException("Invalid header name");
         }
         String value = headerLine.substring(colonIndex + 1).trim();

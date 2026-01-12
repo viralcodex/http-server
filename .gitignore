@@ -1,8 +1,8 @@
-# Compiled class files
 out/
 *.class
 
-# IDE files
+*.txt
+
 .idea
 *.iml
 .vscode/

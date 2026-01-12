@@ -3,13 +3,13 @@ package com.bootdev.internal.request;
 import java.io.Reader;
 
 public class RequestFromReader {
-    public static Request requestFromReader(Reader reader) {
+    public Request requestFromReader(Reader reader) {
         Request request = new Request();
         char[] charBuff = new char[8];
         byte[] buffer = new byte[1024];
         int bufferLength = 0;
         try {
-            while (request.getParserState() != ParserState.DONE) //keep running until we get and parse the request
+            while (request.getParserState() != ParserState.DONE) //keep running until we get and parseHeaders the request
             {
                 int n = reader.read(charBuff); //reading in the buffer
                 if (n == -1) { //EOF
@@ -24,7 +24,7 @@ public class RequestFromReader {
                 }
 
                 //how much is read
-                int consumed = RequestParser.parseRequestLine(request, buffer, bufferLength);
+                int consumed = request.parse(buffer, bufferLength);
 
                 if (consumed > 0) //we parsed the data
                 {
@@ -38,7 +38,6 @@ public class RequestFromReader {
                     bufferLength -= consumed; //update the position we are at right now.
                 }
             }
-
             if (request.getParserState() != ParserState.DONE) {
                 throw new IllegalArgumentException("Incomplete Request");
             }
