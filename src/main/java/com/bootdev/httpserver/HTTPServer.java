@@ -26,11 +26,10 @@ public class HttpServer {
 
     public void handleConnection(Socket socket) {
         try (socket) {
-            InputStreamReader inputStreamReader = new InputStreamReader(
-                    socket.getInputStream(), StandardCharsets.UTF_8
-            );
+            InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
             RequestFromReader requestFromReader = new RequestFromReader();
             Request request = requestFromReader.requestFromReader(inputStreamReader);
+            String body = new String(request.getBody(), StandardCharsets.UTF_8);
 
             System.out.println("Request Line:");
             System.out.println("- Method: " + request.getRequestLine().getMethod());
@@ -40,7 +39,8 @@ public class HttpServer {
             for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
                 System.out.printf("- %s: %s\n", entry.getKey(), entry.getValue());
             }
-            System.out.println("Connection closed");
+            System.out.println("Body: ");
+            System.out.println(body);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
