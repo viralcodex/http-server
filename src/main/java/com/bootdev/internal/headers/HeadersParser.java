@@ -3,16 +3,11 @@ package com.bootdev.internal.headers;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class Headers extends HashMap<String, String> {
+public class HeadersParser extends HashMap<String, String> {
     private static final String allowedCharacters = "!#$%&'*+-.^_`|~";
 
-    public static Headers newHeaders() {
-        return new Headers();
-    }
-
-    public String getHeader(String key) {
-        if (key == null) return null;
-        return get(key.toLowerCase());
+    public static HeadersParser newHeaders() {
+        return new HeadersParser();
     }
 
     public HeadersResult parseHeaders(byte[] buffer, int offset, int length) {

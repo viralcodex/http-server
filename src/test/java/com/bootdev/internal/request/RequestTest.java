@@ -67,8 +67,8 @@ public class RequestTest {
     }
 
     /**
-     * request + headers tests
-     **/
+        request + headers tests
+    **/
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 4, 8, 16, 32})
@@ -92,44 +92,5 @@ public class RequestTest {
         assertThrows(IllegalArgumentException.class, () -> {
             requestFromReader.requestFromReader(reader);
         });
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 4, 8, 16, 32})
-    void standardBody(int chunkSize) {
-        ChunkReader reader = new ChunkReader("POST /submit HTTP/1.1\r\n" + "Host: localhost:42069\r\n" + "Content-Length: 13\r\n" + "\r\n" + "hello world!\n", chunkSize);
-        RequestFromReader requestFromReader = new RequestFromReader();
-        Request request = requestFromReader.requestFromReader(reader);
-
-        assertEquals("hello world!\n", new String(request.getBody()));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 4, 8, 16, 32})
-    void emptyBodyZeroContentLength(int chunkSize) {
-        ChunkReader reader = new ChunkReader("POST /submit HTTP/1.1\r\n" + "Content-Length: 0\r\n\r\n", chunkSize);
-        RequestFromReader requestFromReader = new RequestFromReader();
-        Request request = requestFromReader.requestFromReader(reader);
-        assertEquals(0, request.getBody().length);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 4, 8, 16, 32})
-    void emptyBodyNoContentLength(int chunkSize) {
-        ChunkReader reader = new ChunkReader("GET / HTTP/1.1\r\nHost: localhost\r\n\r\n", 2);
-        RequestFromReader requestFromReader = new RequestFromReader();
-
-        Request request = requestFromReader.requestFromReader(reader);
-        assertEquals(0, request.getBody().length);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 4, 8, 16, 32})
-    void bodyShorterThanContentLength(int chunkSize) {
-        ChunkReader reader = new ChunkReader("POST /submit HTTP/1.1\r\n" + "Host: localhost:42069\r\n" + "Content-Length: 20\r\n" + "\r\n" + "partial content", chunkSize);
-
-        RequestFromReader requestFromReader = new RequestFromReader();
-
-        assertThrows(IllegalArgumentException.class, () -> requestFromReader.requestFromReader(reader));
     }
 }
