@@ -11,7 +11,7 @@ public class ResponseWriter {
     private ResponseWriter() {
     }
 
-    public static void WriteStatusLine(OutputStream outputStream, StatusCode statusCode) throws IOException {
+    public static void writeStatusLine(OutputStream outputStream, StatusCode statusCode) throws IOException {
         String reason = switch (statusCode) {
             case OK -> "OK";
             case BAD_REQUEST -> "ERROR";

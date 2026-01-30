@@ -15,6 +15,10 @@ public class Headers extends HashMap<String, String> {
         return get(key.toLowerCase());
     }
 
+    public void set(String key, String value) {
+        put(key.toLowerCase(), value);
+    }
+
     public HeadersResult parseHeaders(byte[] buffer, int offset, int length) {
         if (buffer == null || buffer.length == 0) {
             return new HeadersResult(0, false, null);
