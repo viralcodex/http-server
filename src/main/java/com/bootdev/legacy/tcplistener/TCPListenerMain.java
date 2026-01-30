@@ -1,7 +1,7 @@
-package com.bootdev.tcplistener;
+package com.bootdev.legacy.tcplistener;
 
 
-import com.bootdev.httpserver.HttpServer;
+import com.bootdev.legacy.httpserver.HttpServer;
 
 class TCPListenerMain {
     public static void main(String[] args) {

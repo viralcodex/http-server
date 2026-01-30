@@ -19,6 +19,10 @@ public class Headers extends HashMap<String, String> {
         put(key.toLowerCase(), value);
     }
 
+    public void remove(String key) {
+        super.remove(key.toLowerCase());
+    }
+
     public HeadersResult parseHeaders(byte[] buffer, int offset, int length) {
         if (buffer == null || buffer.length == 0) {
             return new HeadersResult(0, false, null);

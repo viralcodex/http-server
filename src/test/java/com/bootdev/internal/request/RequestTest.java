@@ -1,6 +1,6 @@
 package com.bootdev.internal.request;
 
-import com.bootdev.chunkreader.ChunkReader;
+import com.bootdev.internal.ChunkReader;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

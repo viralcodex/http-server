@@ -50,7 +50,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.bootdev.httpserver.HttpServer</mainClass>
+                            <mainClass>com.bootdev.legacy.httpserver.HttpServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
