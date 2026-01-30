@@ -1,4 +1,4 @@
-package com.bootdev.chunkreader;
+package com.bootdev.internal;
 
 import java.io.IOException;
 import java.io.Reader;

@@ -1,4 +1,4 @@
-package com.bootdev.udpsender;
+package com.bootdev.legacy.udpsender;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package com.bootdev.httpserver;
+package com.bootdev.legacy.httpserver;
 
 import com.bootdev.internal.request.Request;
 import com.bootdev.internal.request.RequestFromReader;
