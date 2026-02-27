@@ -2,7 +2,7 @@
 # Run script for simple Java project
 
 echo """Select:
-1 to run HTTPServer1
+1 to run HTTPServer
 2 to run (legacy) TCPListenerMain
 3 to run (legacy) UPDSenderMain
 """

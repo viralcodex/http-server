@@ -65,7 +65,7 @@ public class Server {
             Writer writer = new Writer(outputStream);
             try {
                 request = new RequestFromReader().requestFromReader(new InputStreamReader(conn.getInputStream()));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 writer.writeStatus(StatusCode.BAD_REQUEST);
                 handlerBadRequest(writer);
                 return;
